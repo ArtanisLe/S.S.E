@@ -16,7 +16,7 @@ def save_cookies(driver):
     # Save cookies after manual login (run this once)
     if not os.path.exists(COOKIE_FILE):
         driver.get(LOGIN_URL)
-        input("⚠️ Manually log in and press Enter to save cookies...")
+        input("Manually log in and press Enter to save cookies...")
         pickle.dump(driver.get_cookies(), open(COOKIE_FILE, "wb"))
         print("Cookies saved!")
 
@@ -45,9 +45,9 @@ def scrape_courses():
             EC.presence_of_element_located((By.TAG_NAME, "iframe"))
         )
         driver.switch_to.frame(iframe)
-        print("✅ Switched to iframe successfully.")
+        print("Switched to iframe successfully.")
     except:
-        print("⚠️ No iframe found, proceeding normally.")
+        print("No iframe found, proceeding normally.")
 
     # Step 3: Type subject code and search
     try:
@@ -56,15 +56,15 @@ def scrape_courses():
         )
         subject_input.click()  # Click before typing if necessary
         subject_input.send_keys(SUBJECT_CODE)
-        print(f"✅ Entered subject: {SUBJECT_CODE}")
+        print(f"Entered subject: {SUBJECT_CODE}")
 
         search_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH"))
         )
         search_button.click()
-        print("✅ Clicked Search button.")
+        print("Clicked Search button.")
     except Exception as e:
-        print(f"❌ Search failed: {e}")
+        print(f"Search failed: {e}")
         driver.quit()
         return
 
@@ -74,7 +74,7 @@ def scrape_courses():
             EC.element_to_be_clickable((By.ID, "#ICSave"))
         )
         ok_button.click()
-        print("✅ Clicked OK button on 50+ results warning.")
+        print("Clicked OK button on 50+ results warning.")
     except:
         pass
 
@@ -124,7 +124,7 @@ def scrape_courses():
             print("No more pages or pagination error:", e)
             break
 
-    print(f"✅ Scraped {len(all_courses)} courses.")
+    print(f"Scraped {len(all_courses)} courses.")
     
     # Write output to a CSV file
     csv_filename = "courses.csv"
@@ -134,9 +134,9 @@ def scrape_courses():
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(all_courses)
-        print(f"✅ CSV file '{csv_filename}' created successfully.")
+        print(f"CSV file '{csv_filename}' created successfully.")
     except Exception as e:
-        print("❌ Failed to write CSV:", e)
+        print("Failed to write CSV:", e)
 
     driver.quit()
 
